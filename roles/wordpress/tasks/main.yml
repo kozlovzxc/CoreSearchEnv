@@ -1,0 +1,62 @@
+---
+- name: Download WordPress  
+  copy: 
+    src=./data/latest.tar.gz
+    dest=/tmp/latest.tar.gz 
+
+- name: Extract WordPress  
+  unarchive: 
+    src=/tmp/latest.tar.gz 
+    dest=/var/www/
+    copy=no
+
+- name: Create MYSQL database
+  mysql_db: 
+    login_user=root
+    login_password=root
+    name={{wordpress_database_name}}
+    state=present
+
+- name: Create MYSQL user
+  mysql_user: 
+    name={{wordpress_database_user}}
+    password={{wordpress_database_password}}
+    priv=*.*:ALL 
+    state=present
+
+- name: Update default Apache site
+  template:
+    src=wordpress.conf
+    dest=/etc/apache2/sites-enabled/000-default.conf
+
+- name: Create directory for sertificates
+  file: 
+    path=/etc/apache2/ssl
+    state=directory 
+    mode=0755
+
+- name: Copy self signed sertificate
+  copy:
+    src="./data/{{item}}"
+    dest="/etc/apache2/ssl/{{item}}"
+  with_items:
+    - "apache.crt"
+    - "apache.key"
+
+- name: Copy sample WordPress config file
+  command: mv /var/www/wordpress/wp-config-sample.php /var/www/wordpress/wp-config.php creates=/var/www/wordpress/wp-config.php
+
+- name: Update WordPress config file
+  lineinfile:
+    dest=/var/www/wordpress/wp-config.php
+    regexp="{{ item.regexp }}"
+    line="{{ item.line }}"
+  with_items:
+    - {'regexp': "define\\('DB_NAME', '(.)+'\\);", 'line': "define('DB_NAME', '{{wordpress_database_name}}');"}        
+    - {'regexp': "define\\('DB_USER', '(.)+'\\);", 'line': "define('DB_USER', '{{wordpress_database_user}}');"}        
+    - {'regexp': "define\\('DB_PASSWORD', '(.)+'\\);", 'line': "define('DB_PASSWORD', '{{wordpress_database_password}}');"}
+
+- name: Restart Apache
+  service: 
+    name=apache2 
+    state=restarted

@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# global constants
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+CORES=$@
+declare -A TARGET
+TARGET["database_name"]="sacred_Arda"
+TARGET["database_user"]="mighty_Manwe"
+TARGET["database_password"]="children_of_Iluvatar"
+TARGET["admin_username"]="kozlovzxc"
+TARGET["admin_email"]="kozlovzxc@gmail.com"
+TARGET["admin_password"]="kaktuswitheyes"
+TARGET["admin_password_hash"]='$P$BV7GDezlJ9FAoWLHe6xgeZHrqzKyBU0'
+TARGET["cookies_wp1"]="wordpress_ba"
+TARGET["cookies_wp2"]="wordpress_logged_in"
+TARGET["cookies_wp3"]="wordpress_test_cookie"
+TARGET["cookies_wp4"]="wp-settings-time"
+TARGET["ftp_user"]="ftp_user"
+TARGET["ftp_password"]="ftp_pass"
+TARGET["ssl_key"]='MIIEvgIBADANBgkqhkiG9w0BAQEFA'
+TARGET["ssl_key_name"]='PRIVATE'
+TARGET["Apache_global_conf"]='IncludeOptional sites-enabled/*.con'
+TARGET["Apache_hosts_conf"]='SSLCertificateFile /etc/apache2/ssl/apache.crt'
+
+for FILE in ${CORES};
+do
+    for KEY in ${!TARGET[@]};
+    do
+        printf "searching: ${BLUE} ${KEY} ${NC} \n"
+        FOUND=$(strings "${FILE}" | grep -C2 "${TARGET[$KEY]}")
+        if [ $? =  0 ]; then
+            printf "${GREEN} found ${KEY} ${NC}:\n"
+            echo ${FOUND}
+        else
+            printf "${RED} don't found ${KEY} ${NC}\n"
+        fi
+    done;
+done;
