@@ -1,4 +1,11 @@
 ---
+- name: Add deps repos
+  apt_repository:
+    repo: "ppa:ondrej/php"
+    state: present
+  become: yes
+  become_user: root
+
 - name: Update apt cache.
   apt: update_cache=yes cache_valid_time=86400
 

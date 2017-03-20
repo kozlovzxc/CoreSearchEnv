@@ -15,6 +15,6 @@
     - name: Move check file
       tags: check
       copy:
-        src=./data/check
+        src=check
         dest=/usr/local/bin/check
         mode=0755
