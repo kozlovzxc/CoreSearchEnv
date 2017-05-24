@@ -1,0 +1,3 @@
+[submodule "files/CoreSearch"]
+	path = files/CoreSearch
+	url = https://github.com/kozlovzxc/CoreSearch

@@ -1,12 +1,12 @@
 ---
-- name: Download WordPress  
-  copy: 
+- name: Download WordPress
+  copy:
     src=./files/latest.tar.gz
-    dest=/tmp/latest.tar.gz 
+    dest=/tmp/latest.tar.gz
 
-- name: Extract WordPress  
-  unarchive: 
-    src=/tmp/latest.tar.gz 
+- name: Extract WordPress
+  unarchive:
+    src=/tmp/latest.tar.gz
     dest=/var/www/
     copy=no
 
@@ -22,10 +22,10 @@
     target: /tmp/dump.sql
 
 - name: Create MYSQL user
-  mysql_user: 
+  mysql_user:
     name={{wordpress_database_user}}
     password={{wordpress_database_password}}
-    priv=*.*:ALL 
+    priv=*.*:ALL
     state=present
 
 - name: Update default Apache site
@@ -34,9 +34,9 @@
     dest=/etc/apache2/sites-enabled/000-default.conf
 
 - name: Create directory for sertificates
-  file: 
+  file:
     path=/etc/apache2/ssl
-    state=directory 
+    state=directory
     mode=0755
 
 - name: Copy self signed sertificate
@@ -50,10 +50,18 @@
 - name: Copy WordPress config file
   template: src=wp-config.php dest=/var/www/wordpress/
 
+- name: Create directory for core files
+  file:
+    path=/var/www/wordpress/cores
+    state=directory
+    owner=www-data
+    group=www-data
+    mode=0755
+
 - name: Add CoreDumps folder
   lineinfile:
     dest=/etc/apache2/apache2.conf
-    line="CoreDumpDirectory /var/www/wordpress"
+    line="CoreDumpDirectory /var/www/wordpress/cores"
 
 # - name: Restart Apache
   # service:

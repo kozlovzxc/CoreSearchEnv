@@ -1,0 +1,56 @@
+- name: Move check file
+  copy:
+    src=check
+    dest=/usr/local/bin/check
+    mode=0755
+  become: yes
+  become_user: root
+
+- name: install CoreSearch bin deps
+  package:
+    name={{item}}
+    state=present
+  with_items:
+    - git
+    - npm
+    - nodejs
+  become: yes
+  become_user: root
+
+- name: create link for node
+  file:
+    src: "/usr/bin/nodejs"
+    dest: "/usr//bin/node"
+    state: link
+  become: yes
+  become_user: root
+
+- name: create dir for npm globals
+  file:
+    path: "{{ ansible_env.HOME }}/.npm-globals"
+    state: directory
+
+- name: set npm config prefix
+  command: npm config set prefix '~/.npm-globals'
+
+- name: configure PATH for npm binaries
+  lineinfile:
+    dest: "{{ansible_env.HOME}}/.profile"
+    line: 'PATH="$HOME/.npm-globals/bin:$PATH"'
+
+- name: copy coreSearch
+  git:
+    repo: https://github.com/kozlovzxc/CoreSearch
+    dest: "{{ansible_env.HOME}}/coreSearch"
+
+- name: install coreSearch npm deps
+  npm:
+    path: "{{ansible_env.HOME}}/coreSearch"
+
+- name: create link to coreSearch
+  file:
+    src: "{{ansible_env.HOME}}/coreSearch/coreSearch.js"
+    dest: /usr/local/bin/coreSearch
+    state: link
+  become: yes
+  become_user: root

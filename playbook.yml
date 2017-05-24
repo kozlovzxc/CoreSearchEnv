@@ -3,18 +3,17 @@
     wordpress_database_name: "sacred_Arda"
     wordpress_database_user: "mighty_Manwe"
     wordpress_database_password: "children_of_Iluvatar"
-  become: true
-  become_user: root
   roles:
     - {role: geerlingguy.php, tags: ["php"]}
     - {role: geerlingguy.mysql, tags: ["mysql"]}
     - {role: geerlingguy.php-mysql, tags: ["php", "mysql"]}
     - {role: geerlingguy.apache, tags: ["apache"]}
     - {role: wordpress, tags: ["wordpress"]}
-  tasks:
-    - name: Move check file
-      tags: check
-      copy:
-        src=check
-        dest=/usr/local/bin/check
-        mode=0755
+  become: yes
+  become_user: root
+
+- hosts: machines
+  roles:
+    - {role: other, tags: ["other"]}
+  become: yes
+  become_user: ubuntu

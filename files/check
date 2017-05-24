@@ -22,21 +22,28 @@ TARGET["cookies_wp4"]="wp-settings-time"
 TARGET["ftp_user"]="ftp_user"
 TARGET["ftp_password"]="ftp_pass"
 TARGET["ssl_key"]='MIIEvgIBADANBgkqhkiG9w0BAQEFA'
-TARGET["ssl_key_name"]='PRIVATE'
 TARGET["Apache_global_conf"]='IncludeOptional sites-enabled/*.con'
 TARGET["Apache_hosts_conf"]='SSLCertificateFile /etc/apache2/ssl/apache.crt'
+TARGET["AUTH_KEY"]='zn8oDPr9K~v7fapTkx*+(w$#s>6{bD1Fk1|-UpW!?WR|J(d$PUUlSXktjTZLYSIy';
+TARGET["SECURE_AUTH_KEY"]='+kqJX}B8%os6.z5V]T-H7<PC|%byu?H]|^TA1C3<*|5hv(4sI`H7rXjs426-|L[m';
+TARGET["LOGGED_IN_KEY"]='xnn1}$5lA@L*(rW/s>+SVkB:Gz/.V->w,crLLB*Q^omFb(nnuzUbnyLLy*+VLtJ)';
+TARGET["NONCE_KEY"]='av9+V)5$@(p1yYKr(%#22(]tES*ZWhx5}i,!E=Rfnq#PCDER(,|p=j,J?UA[+9ia';
+TARGET["AUTH_SALT"]='kP8_d9,f}Ie|T#*hCCKHCH1{i^85PlLrj=mG=QJQWtgxRbZpc(q3#@jtCv|3-{S7';
+TARGET["SECURE_AUTH_SALT"]='8rS9-i-Kd9KKS9a5~-Mz G#z,qO?4i|r$h#N5->,3c_5kw(Jxj&S^[6=XF6<--)4';
+TARGET["LOGGED_IN_SALT"]=']+4U.!tY@xMC9+[D5-eqc~q-onk#y,n;NpQ5lf#d8t<xTPZnJA|t(EN{( <ZDv3T';
+TARGET["NONCE_SALT"]='uk[* 4J5M)/wi~#25XFu(uD3`<5!r}OI)|YX@.7N9TKavJ53<Q>4+G/?q=X/(wzL';
 
 for FILE in ${CORES};
 do
     for KEY in ${!TARGET[@]};
     do
         printf "searching: ${BLUE} ${KEY} ${NC} \n"
-        FOUND=$(strings "${FILE}" | grep -C2 "${TARGET[$KEY]}")
+        FOUND=$(strings "${FILE}" | grep -F -C2 "${TARGET[$KEY]}")
         if [ $? =  0 ]; then
             printf "${GREEN} found ${KEY} ${NC}:\n"
             echo ${FOUND}
         else
-            printf "${RED} don't found ${KEY} ${NC}\n"
+            printf "${RED} did't found ${KEY} ${NC}\n"
         fi
     done;
 done;

@@ -1,0 +1,4 @@
+**/.vagrant/**
+other/*
+machines/*
+hosts
