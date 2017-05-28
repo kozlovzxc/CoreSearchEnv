@@ -30,9 +30,9 @@ test_trusty ansible_ssh_host=127.0.0.1 ansible_port=2200 ansible_user=vagrant an
 
 ## How to up vagrant
 
-// * install virtualbox
+* install virtualbox
 
-// * install vagrant. 
+* install vagrant. 
 
 // They should be in your disto repo. Alternative downloads https://www.vagrantup.com/downloads.html
 
@@ -50,16 +50,19 @@ Vagrantfile
 ~~~
 
 * uncomment private_network in Vagrantfile \
-// config.vm.network "private_network", ip: "192.168.33.10" \
-
-* uncomment memory settings \
-//  config.vm.provider "virtualbox" do |vb| \
-//  #   # Display the VirtualBox GUI when booting the machine \
-//  #   vb.gui = true \
-//  # \
-//  #   # Customize the amount of memory on the VM: \
-//    vb.memory = "1024" \
-//  end
+~~~
+  config.vm.network "private_network", ip: "192.168.33.10" \
+~~~
+* uncomment memory settings
+~~~
+config.vm.provider "virtualbox" do |vb| \
+  #  # Display the VirtualBox GUI when booting the machine \
+  #  vb.gui = true \
+  #  \
+  #  # Customize the amount of memory on the VM: \
+    vb.memory = "1024" \
+  end
+~~~
 
 $ vagrant up\
 ...
@@ -70,8 +73,7 @@ $ cd ../../..
 $ ansible-playbook -i inventory playbook.yml
 
 ## Visit wordpress site on 192.168.33.10
-// try to login with any login password \
-// need for core dump content
+try to login with any login password, need it for core dump content.
 
 ## How to drop core dump
 $ ulimit -c unlimited
@@ -86,7 +88,9 @@ $ ls /var/www/wordpress/cores/ \
 core.7114  core.7115  core.7116  core.7117  core.7118
 
 ## Check all cores
+
 $ for i in $(ls /var/www/wordpress/cores/core*); do sudo -u www-data check "$i";done 
 
 ## Extract private key 
+
 $ sudo -u www-data ./coreSearch.js --host=localhost --core=/var/www/wordpress/cores/core.2170
