@@ -1,0 +1,10 @@
+[machines]
+# structure
+# {{some_random_name}} ansible_ssh_host={{host}} ansible_port={{host_ssh_port}} ansible_user={{host_user_username}} ansible_ssh_private_key_file={{path_to_ssh_priv_key}}
+
+# vagrant sample
+# test_trusty ansible_ssh_host=127.0.0.1 ansible_port=2222 ansible_user=vagrant ansible_ssh_private_key_file=./machines/ubuntu/trusty64/.vagrant/machines/default/virtualbox/private_key
+
+# amazon sample
+#amazon ansible_ssh_host=123.123.123.123 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+

@@ -15,5 +15,3 @@
 - hosts: machines
   roles:
     - {role: other, tags: ["other"]}
-  become: yes
-  become_user: ubuntu
