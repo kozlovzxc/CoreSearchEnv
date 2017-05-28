@@ -34,9 +34,9 @@ test_trusty ansible_ssh_host=127.0.0.1 ansible_port=2200 ansible_user=vagrant an
 
 * install vagrant. 
 
-// They should be in your disto repo. Alternative downloads https://www.vagrantup.com/downloads.html
+They should be in your disto repo. Alternative downloads https://www.vagrantup.com/downloads.html
 
-// Ubuntu 14.04 vagrant installation guide https://www.olindata.com/en/blog/2014/07/installing-vagrant-and-virtual-box-ubuntu-1404-lts
+Ubuntu 14.04 vagrant installation guide https://www.olindata.com/en/blog/2014/07/installing-vagrant-and-virtual-box-ubuntu-1404-lts
 
 $ mkdir -p machines/ubuntu/trusty64  
 
@@ -49,22 +49,22 @@ $ ls
 Vagrantfile
 ~~~
 
-* uncomment private_network in Vagrantfile \
+* uncomment private_network in Vagrantfile 
 ~~~
-  config.vm.network "private_network", ip: "192.168.33.10" \
+  config.vm.network "private_network", ip: "192.168.33.10" 
 ~~~
 * uncomment memory settings
 ~~~
-config.vm.provider "virtualbox" do |vb| \
-  #  # Display the VirtualBox GUI when booting the machine \
-  #  vb.gui = true \
-  #  \
-  #  # Customize the amount of memory on the VM: \
-    vb.memory = "1024" \
+config.vm.provider "virtualbox" do |vb|
+  #  # Display the VirtualBox GUI when booting the machine
+  #  vb.gui = true
+  #  
+  #  # Customize the amount of memory on the VM:
+    vb.memory = "1024"
   end
 ~~~
 
-$ vagrant up\
+$ vagrant up
 ...
 
 $ cd ../../..
