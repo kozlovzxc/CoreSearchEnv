@@ -76,6 +76,8 @@ $ ansible-playbook -i inventory playbook.yml
 try to login with any login password, need it for core dump content.
 
 ## How to drop core dump
+$ vagrant ssh
+
 $ ulimit -c unlimited
 
 $ echo "core.%p" | sudo tee /proc/sys/kernel/core_pattern
