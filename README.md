@@ -72,10 +72,9 @@ $ cd ../../..
 ## Running ansible
 $ ansible-playbook -i inventory playbook.yml
 
-## Visit wordpress site on 192.168.33.10
-try to login with any login password, need it for core dump content.
+## Settings to drop core dump
+$ cd machines/ubuntu/vagrant
 
-## How to drop core dump
 $ vagrant ssh
 
 $ ulimit -c unlimited
@@ -83,6 +82,11 @@ $ ulimit -c unlimited
 $ echo "core.%p" | sudo tee /proc/sys/kernel/core_pattern
 
 $ sudo service apache2 restart
+
+## Visit wordpress site on 192.168.33.10
+try to login with any login password, need it for core dump content.
+
+## Drop core dump
 
 $ ps aux | grep apache2 | tail -n +2 | head -n -1 | awk '{print $2}' | xargs -n1 sudo kill -11
 
