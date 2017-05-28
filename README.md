@@ -10,11 +10,13 @@ $ cd CoreSearchEnv
 
 More info here https://docs.ansible.com/ansible/intro_inventory.html#host-variables.
 
-* create and edit inventory file
+* create inventory file from sample
 
 $ cp inventory_sample inventory
 
-$ cat my_inventory
+* edit inventory file
+
+$ cat inventory # sample from my setup
 ~~~
 [machines]
 # structure
